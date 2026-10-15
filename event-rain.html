@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eventfall — Network operations</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,Arial,sans-serif;background:#030405;color:#edf5fa}*{box-sizing:border-box}body{margin:0;overflow:hidden}canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:28px 40px;border-bottom:1px solid #ffffff12}.brand{font-size:18px;font-weight:800;letter-spacing:3px}.brand span{color:#67e8f9}.status{font:11px monospace;color:#a8bdc7;letter-spacing:2px}.status i{display:inline-block;width:6px;height:6px;background:#65e9ba;border-radius:50%;box-shadow:0 0 14px #65e9ba;margin-right:10px}.intro{position:relative;z-index:1;padding:45px 40px;pointer-events:none}.eyebrow{font:10px monospace;letter-spacing:3px;color:#70858e}h1{font-size:clamp(42px,6vw,84px);letter-spacing:-5px;line-height:1;margin:17px 0;font-weight:650}h1 span{color:#60737d}.subtitle{font-size:13px;color:#91a1ab;line-height:1.7}.toolbar{position:absolute;right:40px;top:125px;z-index:3;display:flex;gap:12px;align-items:center}button,select{background:#11171c;color:#cad8df;border:1px solid #28323a;border-radius:6px;padding:10px 13px;font:11px monospace;cursor:pointer}button:hover,select:hover{border-color:#8299a7}button:focus-visible,select:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}.legend{position:absolute;left:40px;bottom:240px;z-index:2;display:flex;gap:24px;font:11px monospace;color:#aabac3}.legend i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);margin-right:8px}.metrics{position:absolute;right:40px;bottom:237px;text-align:right;font:11px monospace;color:#7d929e}.metrics strong{font-size:29px;display:block;color:#e9f3f9;font-weight:400}.timeline{position:absolute;z-index:3;bottom:0;left:0;width:100%;height:211px;background:linear-gradient(#080c10e8,#080c10);border-top:1px solid #34424e}.timeline-head{display:flex;justify-content:space-between;align-items:center;padding:19px 40px 13px;font:10px monospace;letter-spacing:2px;color:#9aafba}.live{color:#76e4c5;cursor:pointer;background:none;padding:0;border:0}.track{display:flex;gap:10px;overflow-x:auto;padding:9px 40px 17px;height:137px;scrollbar-color:#435663 #0b1015;scrollbar-width:thin}.event{flex:0 0 230px;position:relative;border:1px solid #ffffff12;border-top:2px solid var(--c);padding:15px 16px;background:#0d141b;text-align:left;border-radius:3px}.event:hover{background:#15202a;border-color:var(--c)}.event small{font:10px monospace;color:#7b929f;display:block}.event b{font:12px monospace;color:var(--c);display:block;margin:12px 0 8px}.event em{font:10px monospace;color:#c0cdd5;font-style:normal}.detail{position:absolute;z-index:5;right:28px;bottom:230px;width:370px;max-width:calc(100% - 56px);background:#101820f5;border:1px solid #3b5261;padding:22px;box-shadow:0 20px 80px #000;border-radius:8px}.detail[hidden]{display:none}.detail h2{font:14px monospace;margin:0 25px 18px 0}.detail pre{white-space:pre-wrap;font:11px/1.8 monospace;color:#a7c4d5}.close{position:absolute;right:10px;top:9px;padding:5px 9px}.hint{position:absolute;left:40px;bottom:285px;color:#50636d;font:10px monospace;letter-spacing:2px}@media(max-width:750px){header{padding:22px}.intro{padding:32px 22px}h1{letter-spacing:-2px}.toolbar{top:255px;left:22px;right:auto}.legend{left:22px;bottom:255px;gap:12px;flex-wrap:wrap;max-width:75%;font-size:9px}.metrics{right:22px;bottom:250px}.timeline-head{padding-left:22px;padding-right:22px}.track{padding-left:22px}.hint{display:none}.status{font-size:8px;letter-spacing:1px}.subtitle{max-width:280px}}
+.toolbar{flex-wrap:wrap;max-width:600px;justify-content:flex-end}.audio-controls{display:flex;align-items:center;gap:9px}.audio-controls input{width:75px;accent-color:#68e4ff}.audio-controls label{font:10px monospace;color:#91a1ab}@media(max-width:750px){.toolbar{right:22px;justify-content:flex-start;gap:8px}}
+</style>
+</head>
+<body>
+<canvas id="rain" aria-label="Slow network event droplets landing in ripples near the center of the screen"></canvas>
+<header><div class="brand">EVENT<span>FALL</span><span style="color:#53636d;font-weight:400;font-size:10px;letter-spacing:1px;margin-left:15px">/ NETWORK OPS</span></div><div class="status"><i></i>SIMULATED STREAM</div></header>
+<main class="intro"><div class="eyebrow">NETWORK AUTOMATION / EVENT OBSERVATORY</div><h1>Every event.<br><span>A ripple of change.</span></h1><div class="subtitle">Intent, infrastructure, and everything in between.<br>Your network, unfolding in real time.</div></main>
+<div class="toolbar"><label for="rate" class="eyebrow">FLOW</label><select id="rate"><option value="1400">Ambient</option><option value="550">Active</option><option value="150">Storm</option></select><button id="burst">+ Burst</button><button id="pause">Pause</button><div class="audio-controls"><button id="sound" aria-pressed="false">Rain sound: off</button><label for="volume">VOL</label><input id="volume" type="range" min="0" max="100" value="35" aria-label="Rain sound volume"></div></div>
+<div class="hint">INGEST → OBSERVE → AUTOMATE</div>
+<div class="legend"><span style="--c:#68e4ff"><i></i>intent.requested</span><span style="--c:#b39aff"><i></i>dns.record.created</span><span style="--c:#6b9eff"><i></i>interface.down</span><span style="--c:#ff526b"><i></i>network.interface.down · 1%</span></div>
+<div class="metrics"><strong id="count">0000</strong>EVENTS INGESTED</div>
+<section class="timeline" aria-label="Event history"><div class="timeline-head"><span>EVENT TIMELINE <span style="color:#536775">/ SELECT TO INSPECT</span></span><button class="live" id="follow">● FOLLOWING LIVE</button></div><div class="track" id="track" tabindex="0" aria-label="Scrollable event timeline"></div></section>
+<aside class="detail" id="detail" hidden><button class="close" id="close" aria-label="Close event details">×</button><h2 id="detailTitle"></h2><pre id="payload"></pre></aside>
+<script>
+(() => {
+ 'use strict';
+ const canvas=document.getElementById('rain'),ctx=canvas.getContext('2d');
+ const $=id=>document.getElementById(id),track=$('track');
+ const types=[{name:'intent.requested',color:'#68e4ff',action:'Provision network intent'},{name:'dns.record.created',color:'#b39aff',action:'DNS record published'},{name:'interface.down',color:'#6b9eff',action:'Link state changed'}];
+ const rareType={name:'network.interface.down',color:'#ff526b',action:'Network interface failure'};
+ const hosts=['edge-chi-01','core-dal-02','leaf-nyc-04','spine-sea-01','edge-lon-03'];
+ let w=0,h=0,drops=[],ripples=[],total=0,paused=false,following=true,last=0,next=0,simTime=0;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function resize(){w=innerWidth;h=innerHeight;const d=devicePixelRatio||1;canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0)}
+ addEventListener('resize',resize);resize();
+ function ingest(){arrivals.push(simTime);const t=Math.random()<.01?rareType:types[Math.floor(Math.random()*types.length)],id=++total;const event={id:'evt_'+String(id).padStart(6,'0'),type:t.name,time:new Date().toISOString(),source:hosts[Math.floor(Math.random()*hosts.length)],partition:Math.floor(Math.random()*6),offset:104200+id};$('count').textContent=String(total).padStart(4,'0');const targetX=.5+(Math.random()-.5)*.65,targetY=.52+(Math.random()-.5)*.12;drops.push({targetX,targetY,startY:.12+Math.random()*.09,age:0,duration:reduced?.05:7+Math.random()*4,t,event});}
+ function land(d){ripples.push({targetX:d.targetX,targetY:d.targetY,age:0,color:d.t.color,t:d.t,event:d.event});}
+ function addToTimeline(d){const b=document.createElement('button');b.className='event';b.style.setProperty('--c',d.t.color);const small=document.createElement('small');small.textContent=new Date(d.event.time).toLocaleTimeString([], {hour12:false})+' · P'+d.event.partition;const title=document.createElement('b');title.textContent=d.t.name;const sub=document.createElement('em');sub.textContent=d.event.source+' ↗';b.append(small,title,sub);b.onclick=()=>{$('detailTitle').textContent=d.t.name;$('detailTitle').style.color=d.t.color;$('payload').textContent=JSON.stringify(d.event,null,2);$('detail').hidden=false};track.append(b);if(track.children.length>180)track.firstElementChild.remove();if(following)track.scrollLeft=track.scrollWidth;}
+ function frame(now){const dt=Math.min((now-(last||now))/1000,.06);last=now;if(!paused){simTime+=dt;if(simTime>=next){ingest();next=simTime+Number($('rate').value)/1000*(.6+Math.random()*.8)}ctx.clearRect(0,0,w,h);for(let i=drops.length-1;i>=0;i--){const d=drops[i];d.age+=dt;const p=Math.min(d.age/d.duration,1),x=d.targetX*w,startY=d.startY*h,targetY=Math.min(d.targetY*h,h-230),y=startY+(targetY-startY)*(p*.75+p*p*.25);ctx.strokeStyle=d.t.color;ctx.fillStyle=d.t.color;ctx.shadowColor=d.t.color;ctx.shadowBlur=20;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y-18);ctx.lineTo(x,y);ctx.stroke();ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;if(p===1){land(d);drops.splice(i,1)}}for(let i=ripples.length-1;i>=0;i--){const r=ripples[i];r.age+=dt;ctx.globalAlpha=Math.max(0,1-r.age/3.2);ctx.strokeStyle=r.color;ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(r.targetX*w,Math.min(r.targetY*h,h-230),8+r.age*35,3+r.age*9,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;const travel=Math.max(0,Math.min(1,(r.age-.65)/2.55)),originY=Math.min(r.targetY*h,h-230),labelY=originY-18+(h-185-originY+18)*travel*travel;ctx.font='12px monospace';ctx.fillStyle=r.color;ctx.globalAlpha=Math.min(1,r.age/.18)*(1-Math.pow(travel,2));const labelWidth=ctx.measureText(r.t.name).width,labelX=Math.max(16,Math.min(w-labelWidth-16,r.targetX*w-labelWidth/2));ctx.fillText(r.t.name,labelX,labelY);ctx.globalAlpha=1;if(r.age>3.2){addToTimeline(r);ripples.splice(i,1)}}}updateAudio();requestAnimationFrame(frame)}
+ $('pause').onclick=()=>{paused=!paused;$('pause').textContent=paused?'Resume':'Pause';$('pause').setAttribute('aria-pressed',String(paused))};
+ $('burst').onclick=()=>{if(paused)return;for(let i=0;i<10;i++)ingest()};
+ $('rate').onchange=()=>{next=simTime};
+ function follow(value){following=value;$('follow').textContent=value?'● FOLLOWING LIVE':'↗ RETURN TO LIVE';if(value)track.scrollLeft=track.scrollWidth}
+ track.addEventListener('wheel',()=>follow(false),{passive:true});track.addEventListener('pointerdown',()=>follow(false));track.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key))follow(false)});$('follow').onclick=()=>follow(true);$('close').onclick=()=>{$('detail').hidden=true};addEventListener('keydown',e=>{if(e.key==='Escape')$('detail').hidden=true});
+ // Rain is synthesized locally: stereo filtered noise, driven by actual recent arrivals.
+ const arrivals=[];
+ let audio=null,soundEnabled=false,lastAudioUpdate=-1;
+ function createRainAudio(){
+  const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+  if(!AudioContextClass)throw new Error('Web Audio is unavailable');
+  const context=new AudioContextClass(),buffer=context.createBuffer(2,context.sampleRate*6,context.sampleRate);
+  for(let channel=0;channel<2;channel++){
+   const data=buffer.getChannelData(channel);
+   for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*.7;
+  }
+  const source=context.createBufferSource(),high=context.createBiquadFilter(),low=context.createBiquadFilter(),gain=context.createGain();
+  source.buffer=buffer;source.loop=true;
+  high.type='highpass';high.frequency.value=350;
+  low.type='lowpass';low.frequency.value=1500;low.Q.value=.5;
+  gain.gain.value=0;
+  source.connect(high);high.connect(low);low.connect(gain);gain.connect(context.destination);source.start();
+  return {context,gain,low};
+ }
+ function updateAudio(force=false){
+  while(arrivals.length && arrivals[0]<simTime-4)arrivals.shift();
+  if(!audio)return;
+  const now=audio.context.currentTime;
+  if(!force && now-lastAudioUpdate<.1)return;
+  lastAudioUpdate=now;
+  const intensity=Math.min(1,arrivals.length/4/7),volume=Number($('volume').value)/100;
+  const audible=soundEnabled&&!paused&&!document.hidden;
+  audio.gain.gain.setTargetAtTime(audible?volume*(.07+.65*intensity):0,now,.45);
+  audio.low.frequency.setTargetAtTime(1400+intensity*6200,now,.65);
+ }
+ $('sound').onclick=async()=>{
+  const button=$('sound');button.disabled=true;
+  try{
+   if(!audio)audio=createRainAudio();
+   await audio.context.resume();
+   soundEnabled=!soundEnabled;
+   button.textContent=soundEnabled?'Rain sound: on':'Rain sound: off';
+   button.setAttribute('aria-pressed',String(soundEnabled));updateAudio(true);
+  }catch(error){button.textContent='Retry rain sound';button.title=error.message;}
+  finally{button.disabled=false;}
+ };
+ $('volume').oninput=()=>updateAudio(true);
+ document.addEventListener('visibilitychange',()=>updateAudio(true));
+ requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
+
+
+
+
