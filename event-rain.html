@@ -6,6 +6,19 @@
 <style>
 :root{color-scheme:dark;font-family:Inter,Arial,sans-serif;background:#030405;color:#edf5fa}*{box-sizing:border-box}body{margin:0;overflow:hidden}canvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;padding:28px 40px;border-bottom:1px solid #ffffff12}.brand{font-size:18px;font-weight:800;letter-spacing:3px}.brand span{color:#67e8f9}.status{font:11px monospace;color:#a8bdc7;letter-spacing:2px}.status i{display:inline-block;width:6px;height:6px;background:#65e9ba;border-radius:50%;box-shadow:0 0 14px #65e9ba;margin-right:10px}.intro{position:relative;z-index:1;padding:45px 40px;pointer-events:none}.eyebrow{font:10px monospace;letter-spacing:3px;color:#70858e}h1{font-size:clamp(42px,6vw,84px);letter-spacing:-5px;line-height:1;margin:17px 0;font-weight:650}h1 span{color:#60737d}.subtitle{font-size:13px;color:#91a1ab;line-height:1.7}.toolbar{position:absolute;right:40px;top:125px;z-index:3;display:flex;gap:12px;align-items:center}button,select{background:#11171c;color:#cad8df;border:1px solid #28323a;border-radius:6px;padding:10px 13px;font:11px monospace;cursor:pointer}button:hover,select:hover{border-color:#8299a7}button:focus-visible,select:focus-visible{outline:2px solid #67e8f9;outline-offset:3px}.legend{position:absolute;left:40px;bottom:240px;z-index:2;display:flex;gap:24px;font:11px monospace;color:#aabac3}.legend i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--c);box-shadow:0 0 12px var(--c);margin-right:8px}.metrics{position:absolute;right:40px;bottom:237px;text-align:right;font:11px monospace;color:#7d929e}.metrics strong{font-size:29px;display:block;color:#e9f3f9;font-weight:400}.timeline{position:absolute;z-index:3;bottom:0;left:0;width:100%;height:211px;background:linear-gradient(#080c10e8,#080c10);border-top:1px solid #34424e}.timeline-head{display:flex;justify-content:space-between;align-items:center;padding:19px 40px 13px;font:10px monospace;letter-spacing:2px;color:#9aafba}.live{color:#76e4c5;cursor:pointer;background:none;padding:0;border:0}.track{display:flex;gap:10px;overflow-x:auto;padding:9px 40px 17px;height:137px;scrollbar-color:#435663 #0b1015;scrollbar-width:thin}.event{flex:0 0 230px;position:relative;border:1px solid #ffffff12;border-top:2px solid var(--c);padding:15px 16px;background:#0d141b;text-align:left;border-radius:3px}.event:hover{background:#15202a;border-color:var(--c)}.event small{font:10px monospace;color:#7b929f;display:block}.event b{font:12px monospace;color:var(--c);display:block;margin:12px 0 8px}.event em{font:10px monospace;color:#c0cdd5;font-style:normal}.detail{position:absolute;z-index:5;right:28px;bottom:230px;width:370px;max-width:calc(100% - 56px);background:#101820f5;border:1px solid #3b5261;padding:22px;box-shadow:0 20px 80px #000;border-radius:8px}.detail[hidden]{display:none}.detail h2{font:14px monospace;margin:0 25px 18px 0}.detail pre{white-space:pre-wrap;font:11px/1.8 monospace;color:#a7c4d5}.close{position:absolute;right:10px;top:9px;padding:5px 9px}.hint{position:absolute;left:40px;bottom:285px;color:#50636d;font:10px monospace;letter-spacing:2px}@media(max-width:750px){header{padding:22px}.intro{padding:32px 22px}h1{letter-spacing:-2px}.toolbar{top:255px;left:22px;right:auto}.legend{left:22px;bottom:255px;gap:12px;flex-wrap:wrap;max-width:75%;font-size:9px}.metrics{right:22px;bottom:250px}.timeline-head{padding-left:22px;padding-right:22px}.track{padding-left:22px}.hint{display:none}.status{font-size:8px;letter-spacing:1px}.subtitle{max-width:280px}}
 .toolbar{flex-wrap:wrap;max-width:600px;justify-content:flex-end}.audio-controls{display:flex;align-items:center;gap:9px}.audio-controls input{width:75px;accent-color:#68e4ff}.audio-controls label{font:10px monospace;color:#91a1ab}@media(max-width:750px){.toolbar{right:22px;justify-content:flex-start;gap:8px}}
+/* Compact heading and a single-line control strip. */
+.brand{font-size:15px;letter-spacing:2px}
+.intro{padding-top:34px}
+h1{font-size:clamp(34px,4.5vw,62px);letter-spacing:-3px;margin:14px 0}
+.subtitle{font-size:12px}
+.toolbar{top:116px;right:28px;max-width:calc(100vw - 56px);flex-wrap:nowrap;justify-content:flex-start;gap:7px;overflow-x:auto;scrollbar-width:thin;padding-bottom:5px}
+.toolbar>*{flex-shrink:0}
+.toolbar button,.toolbar select{font-size:10px;padding:7px 9px;white-space:nowrap}
+.toolbar .eyebrow{font-size:9px;letter-spacing:1px;white-space:nowrap}
+.audio-controls{gap:6px;flex-shrink:0;white-space:nowrap}
+.audio-controls input{width:54px}
+@media(max-width:1100px){.toolbar{top:285px;left:40px;right:28px;max-width:none}}
+@media(max-width:750px){.brand{font-size:13px}.brand span[style]{font-size:8px!important;margin-left:8px!important}.intro{padding-top:26px}h1{font-size:clamp(32px,6vw,45px);letter-spacing:-2px}.toolbar{top:260px;left:22px;right:22px;gap:6px}.toolbar button,.toolbar select{font-size:10px;padding:6px 8px}}
 </style>
 </head>
 <body>
@@ -31,7 +44,7 @@
  function resize(){w=innerWidth;h=innerHeight;const d=devicePixelRatio||1;canvas.width=w*d;canvas.height=h*d;ctx.setTransform(d,0,0,d,0,0)}
  addEventListener('resize',resize);resize();
  function ingest(){arrivals.push(simTime);const t=Math.random()<.01?rareType:types[Math.floor(Math.random()*types.length)],id=++total;const event={id:'evt_'+String(id).padStart(6,'0'),type:t.name,time:new Date().toISOString(),source:hosts[Math.floor(Math.random()*hosts.length)],partition:Math.floor(Math.random()*6),offset:104200+id};$('count').textContent=String(total).padStart(4,'0');const targetX=.5+(Math.random()-.5)*.65,targetY=.52+(Math.random()-.5)*.12;drops.push({targetX,targetY,startY:.12+Math.random()*.09,age:0,duration:reduced?.05:7+Math.random()*4,t,event});}
- function land(d){ripples.push({targetX:d.targetX,targetY:d.targetY,age:0,color:d.t.color,t:d.t,event:d.event});}
+ function land(d){playImpact(d);ripples.push({targetX:d.targetX,targetY:d.targetY,age:0,color:d.t.color,t:d.t,event:d.event});}
  function addToTimeline(d){const b=document.createElement('button');b.className='event';b.style.setProperty('--c',d.t.color);const small=document.createElement('small');small.textContent=new Date(d.event.time).toLocaleTimeString([], {hour12:false})+' · P'+d.event.partition;const title=document.createElement('b');title.textContent=d.t.name;const sub=document.createElement('em');sub.textContent=d.event.source+' ↗';b.append(small,title,sub);b.onclick=()=>{$('detailTitle').textContent=d.t.name;$('detailTitle').style.color=d.t.color;$('payload').textContent=JSON.stringify(d.event,null,2);$('detail').hidden=false};track.append(b);if(track.children.length>180)track.firstElementChild.remove();if(following)track.scrollLeft=track.scrollWidth;}
  function frame(now){const dt=Math.max(0,(now-(last||now))/1000);last=now;if(!paused){simTime+=dt;if(simTime>=next){ingest();next=simTime+Number($('rate').value)/1000*(.6+Math.random()*.8)}ctx.clearRect(0,0,w,h);for(let i=drops.length-1;i>=0;i--){const d=drops[i];d.age+=dt*Number(speed.value);const p=Math.min(d.age/d.duration,1),x=d.targetX*w,startY=d.startY*h,targetY=Math.min(d.targetY*h,h-230),y=startY+(targetY-startY)*(p*.75+p*p*.25);ctx.strokeStyle=d.t.color;ctx.fillStyle=d.t.color;ctx.shadowColor=d.t.color;ctx.shadowBlur=20;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y-18);ctx.lineTo(x,y);ctx.stroke();ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;if(p===1){land(d);drops.splice(i,1)}}for(let i=ripples.length-1;i>=0;i--){const r=ripples[i];r.age+=dt;ctx.globalAlpha=Math.max(0,1-r.age/3.2);ctx.strokeStyle=r.color;ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(r.targetX*w,Math.min(r.targetY*h,h-230),8+r.age*35,3+r.age*9,0,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=1;const travel=Math.max(0,Math.min(1,(r.age-.65)/2.55)),originY=Math.min(r.targetY*h,h-230),labelY=originY-18+(h-185-originY+18)*travel*travel;ctx.font='12px monospace';ctx.fillStyle=r.color;ctx.globalAlpha=Math.min(1,r.age/.18)*(1-Math.pow(travel,2));const labelWidth=ctx.measureText(r.t.name).width,labelX=Math.max(16,Math.min(w-labelWidth-16,r.targetX*w-labelWidth/2));ctx.fillText(r.t.name,labelX,labelY);ctx.globalAlpha=1;if(r.age>3.2){addToTimeline(r);ripples.splice(i,1)}}}updateAudio();requestAnimationFrame(frame)}
  $('pause').onclick=()=>{paused=!paused;$('pause').textContent=paused?'Resume':'Pause';$('pause').setAttribute('aria-pressed',String(paused))};
@@ -52,11 +65,34 @@
   }
   const source=context.createBufferSource(),high=context.createBiquadFilter(),low=context.createBiquadFilter(),gain=context.createGain();
   source.buffer=buffer;source.loop=true;
-  high.type='highpass';high.frequency.value=350;
-  low.type='lowpass';low.frequency.value=1500;low.Q.value=.5;
+  high.type='highpass';high.frequency.value=180;
+  low.type='lowpass';low.frequency.value=650;low.Q.value=.5;
   gain.gain.value=0;
   source.connect(high);high.connect(low);low.connect(gain);gain.connect(context.destination);source.start();
-  return {context,gain,low};
+  const impacts=context.createGain();impacts.gain.value=0;impacts.connect(context.destination);
+  return {context,gain,low,impacts,buffer};
+ }
+ // Schedule a short, spatial splash at the same instant the visual ripple starts.
+ function playImpact(drop){
+  if(!audio||!soundEnabled||paused||document.hidden||audio.context.state!=='running')return;
+  const {context,buffer,impacts}=audio,now=context.currentTime;
+  // A soft noise splash shares the rain bed's texture, without a pitched bubble.
+  const splash=context.createBufferSource(),filter=context.createBiquadFilter(),high=context.createBiquadFilter(),envelope=context.createGain(),pan=context.createStereoPanner();
+  const size=.85+Math.random()*.3,duration=.30*size;
+  splash.buffer=buffer;splash.playbackRate.value=.8+Math.random()*.15;
+  high.type='highpass';high.frequency.value=320;high.Q.value=.5;
+  filter.type='lowpass';filter.frequency.value=1650/size;filter.Q.value=.45;
+  filter.frequency.exponentialRampToValueAtTime(700,now+duration);
+  pan.pan.value=Math.max(-.65,Math.min(.65,(drop.targetX-.5)*1.3));
+  envelope.gain.setValueAtTime(0,now);
+  envelope.gain.linearRampToValueAtTime(.25*size,now+.004);
+  envelope.gain.exponentialRampToValueAtTime(.045,now+.032);
+  envelope.gain.linearRampToValueAtTime(.075*size,now+.052);
+  envelope.gain.exponentialRampToValueAtTime(.025,now+.11);
+  envelope.gain.exponentialRampToValueAtTime(.0001,now+duration);
+  splash.connect(high);high.connect(filter);filter.connect(envelope);envelope.connect(pan);pan.connect(impacts);
+  splash.start(now,Math.random()*4);splash.stop(now+duration+.02);
+  splash.onended=()=>{splash.disconnect();high.disconnect();filter.disconnect();envelope.disconnect();pan.disconnect()};
  }
  function updateAudio(force=false){
   while(arrivals.length && arrivals[0]<simTime-4)arrivals.shift();
@@ -64,10 +100,15 @@
   const now=audio.context.currentTime;
   if(!force && now-lastAudioUpdate<.1)return;
   lastAudioUpdate=now;
-  const intensity=Math.min(1,arrivals.length/4/7),volume=Number($('volume').value)/100;
+  const eventRate=arrivals.length/4,volume=Number($('volume').value)/100;
+  const active=Math.max(0,Math.min(1,(eventRate-.8)/1.2));
+  const storm=Math.max(0,Math.min(1,(eventRate-2)/4));
+  const bedLevel=.018+.052*active+.108*storm;
+  const brightness=650+650*active+1100*storm;
   const audible=soundEnabled&&!paused&&!document.hidden;
-  audio.gain.gain.setTargetAtTime(audible?volume*(.07+.65*intensity):0,now,.45);
-  audio.low.frequency.setTargetAtTime(1400+intensity*6200,now,.65);
+  audio.gain.gain.setTargetAtTime(audible?volume*bedLevel:0,now,.6);
+  audio.low.frequency.setTargetAtTime(brightness,now,.8);
+  audio.impacts.gain.setTargetAtTime(audible?volume*.60:0,now,.08);
  }
  $('sound').onclick=async()=>{
   const button=$('sound');button.disabled=true;
@@ -87,6 +128,12 @@
 </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
